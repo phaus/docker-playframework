@@ -10,6 +10,9 @@ All images are based on [anapsix/alpine-java](https://hub.docker.com/r/anapsix/a
 
 The version tag is added by the [build-all.sh](https://github.com/socialmetrix/docker-playframework/blob/master/build-all.sh#L11)
 
+# Build
+
+    docker build  --pull --build-arg PLAY_VERSION=1.5.1 -t phaus/play:1.5.1-alpine .
 
 # USAGE
 

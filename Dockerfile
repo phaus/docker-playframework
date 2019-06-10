@@ -1,14 +1,18 @@
-FROM openjdk:8-jre-alpine
+ARG JDK_VERSION
+
+FROM adoptopenjdk/$JDK_VERSION:latest
 
 LABEL maintainer="philipp@haussleiter.de"
 
 RUN mkdir -p /app
 
-RUN apk upgrade \
-      && apk --no-cache add curl unzip bash python
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends curl unzip bash python && \
+    rm -rf /var/lib/apt/lists/*
 
-# ENV PLAY_VERSION __PLAY_VERSION__
 ARG PLAY_VERSION
+ARG JDK_VERSION
 
 RUN curl --location -s https://downloads.typesafe.com/play/${PLAY_VERSION}/play-${PLAY_VERSION}.zip > /tmp/play-${PLAY_VERSION}.zip \
       && unzip -q /tmp/play-${PLAY_VERSION}.zip -d /opt \
@@ -23,10 +27,14 @@ RUN curl --location -s https://downloads.typesafe.com/play/${PLAY_VERSION}/play-
             /opt/play-${PLAY_VERSION}/samples \
             /opt/play-${PLAY_VERSION}/support
 
-RUN apk del --purge curl unzip \
-      && rm -fr /var/cache/apk/*
+RUN apt-get purge -y curl unzip && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
-ENV PATH /opt/play-${PLAY_VERSION}:$PATH
+ENV PLAY_VERSION=${PLAY_VERSION}
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH="/opt/java/openjdk/bin:$PATH"
+ENV PATH "/opt/play-${PLAY_VERSION}:$PATH"
 
 RUN chmod +x /opt/play-${PLAY_VERSION}/play
 

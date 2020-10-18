@@ -7,6 +7,7 @@ read -r -d '' PLAY_VERSIONS <<-LIST
 1.2.6.2
 1.2.7.2
 1.3.4
+1.4.5
 1.4.6
 1.5.3
 LIST

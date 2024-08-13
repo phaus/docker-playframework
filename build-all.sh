@@ -1,15 +1,10 @@
 #!/usr/bin/env bash
 
-JDK_VERSION="openjdk11"
+JDK_VERSION="21-jdk"
 
 read -r -d '' PLAY_VERSIONS <<-LIST
-1.2.5.6
-1.2.6.2
-1.2.7.2
-1.3.4
-1.4.5
-1.4.6
-1.5.3
+1.7.1
+1.8.0
 LIST
 
 read -r -d '' WARN_HEADER <<-EOM
@@ -34,9 +29,13 @@ for PLAY_VERSION in $(echo $PLAY_VERSIONS); do
   cat Dockerfile >> ${IMAGE_VERSION}/Dockerfile
 
   cd ${IMAGE_VERSION}
-  docker build --pull --build-arg PLAY_VERSION --build-arg JDK_VERSION -t phaus/play:${IMAGE_VERSION} .
+  docker buildx build \
+    --push \
+    --platform=linux/arm64,linux/arm64/v8,linux/amd64 \
+    --build-arg PLAY_VERSION \
+    --build-arg JDK_VERSION \
+    -t phaus/play:${IMAGE_VERSION} .
   docker run --rm -it phaus/play:${IMAGE_VERSION}
-  docker push phaus/play:${IMAGE_VERSION}
   cd ${OLD_PWD}
 done
 

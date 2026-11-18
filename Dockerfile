@@ -1,6 +1,6 @@
 ARG JDK_VERSION
 
-FROM --platform=$BUILDPLATFORM eclipse-temurin:${JDK_VERSION}-jammy
+FROM --platform=$BUILDPLATFORM eclipse-temurin:${JDK_VERSION}
 
 LABEL maintainer="philipp@haussleiter.de"
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-JDK_VERSION="21.0.13-jdk"
+JDK_VERSION="21.0.13_9-jdk"
 
 read -r -d '' PLAY_VERSIONS <<-LIST
 1.11.0

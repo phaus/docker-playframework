@@ -24,13 +24,13 @@ jobs:
       matrix:
         include:
           - PLAY_VERSION: "1.11.0"
-            JDK_VERSION: "21.0.13-jdk"
+            JDK_VERSION: "21.0.13_9-jdk"
           - PLAY_VERSION: "1.10.0"
-            JDK_VERSION: "21.0.13-jdk"
+            JDK_VERSION: "21.0.13_9-jdk"
           - PLAY_VERSION: "1.9.0"
-            JDK_VERSION: "21.0.13-jdk"
+            JDK_VERSION: "21.0.13_9-jdk"
           - PLAY_VERSION: "1.8.0"
-            JDK_VERSION: "21.0.13-jdk"
+            JDK_VERSION: "21.0.13_9-jdk"
 
     steps:
       - name: Checkout repository

@@ -1,4 +1,4 @@
-ARG JDK_VERSION
+ARG JDK_VERSION=21.0.13_9-jdk
 
 FROM --platform=$BUILDPLATFORM eclipse-temurin:${JDK_VERSION}
 
@@ -34,7 +34,7 @@ RUN apt-get purge -y curl unzip && \
 ENV PLAY_VERSION=${PLAY_VERSION}
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="/opt/java/openjdk/bin:$PATH"
-ENV PATH "/opt/play-${PLAY_VERSION}:$PATH"
+ENV PATH="/opt/play-${PLAY_VERSION}:$PATH"
 
 RUN chmod +x /opt/play-${PLAY_VERSION}/play
 

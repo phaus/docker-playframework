@@ -98,6 +98,14 @@ jobs:
 
       - name: Create latest manifest
         run: |
+          # Wait for image to be available in registry
+          for i in {1..10}; do
+            if docker manifest inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:1.11.0-21.0.13_9-jdk >/dev/null 2>&1; then
+              break
+            fi
+            echo "Waiting for image to be available... ($i/10)"
+            sleep 10
+          done
           docker buildx imagetools create \
             -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:1.11.0-21.0.13-jdk
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:1.11.0-21.0.13_9-jdk

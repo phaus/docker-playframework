@@ -8,15 +8,15 @@ Images are published to **GitHub Container Registry**: `ghcr.io/phaus/docker-pla
 
 | Play Version | JDK Version | Image Tag |
 |--------------|-------------|-----------|
-| 1.11.0       | Eclipse Temurin 21.0.13 (build 9) | `ghcr.io/phaus/docker-playframework:1.11.0-21.0.13_9-jdk` |
-| 1.10.0       | Eclipse Temurin 21.0.13 (build 9) | `ghcr.io/phaus/docker-playframework:1.10.0-21.0.13_9-jdk` |
-| 1.9.0        | Eclipse Temurin 21.0.13 (build 9) | `ghcr.io/phaus/docker-playframework:1.9.0-21.0.13_9-jdk` |
-| 1.8.0        | Eclipse Temurin 21.0.13 (build 9) | `ghcr.io/phaus/docker-playframework:1.8.0-21.0.13_9-jdk` |
-| **latest**   | Eclipse Temurin 21.0.13 (build 9) | `ghcr.io/phaus/docker-playframework:latest` (points to 1.11.0) |
+| 1.11.0       | Eclipse Temurin 25.0.5 (build 8) | `ghcr.io/phaus/docker-playframework:1.11.0-25.0.5_8-jdk` |
+| 1.10.0       | Eclipse Temurin 25.0.5 (build 8) | `ghcr.io/phaus/docker-playframework:1.10.0-25.0.5_8-jdk` |
+| 1.9.0        | Eclipse Temurin 25.0.5 (build 8) | `ghcr.io/phaus/docker-playframework:1.9.0-25.0.5_8-jdk` |
+| 1.8.0        | Eclipse Temurin 25.0.5 (build 8) | `ghcr.io/phaus/docker-playframework:1.8.0-25.0.5_8-jdk` |
+| **latest**   | Eclipse Temurin 25.0.5 (build 8) | `ghcr.io/phaus/docker-playframework:latest` (points to 1.11.0) |
 
 All images are based on **[Eclipse Temurin](https://hub.docker.com/_/eclipse-temurin)** (Ubuntu jammy), minimalistic, with CA certs for HTTPS. Multi-platform: `linux/amd64`, `linux/arm64`.
 
-Play 1.11.0 requires Java 21 (drops Java 11). Play 1.10.0+ requires Java 17+ (jakarta.*, JUnit5).
+Play 1.11.0 supports Java 21+ (drops Java 11). Play 1.10.0+ requires Java 17+ (jakarta.*, JUnit5). Images use Eclipse Temurin 25 (LTS, Sept 2026+ support).
 
 # Build
 
@@ -31,7 +31,7 @@ Images are built and pushed on every push to `master` and on version tags (`v*`)
 ./build-all.sh
 
 # Or build single version locally
-docker build --pull --build-arg PLAY_VERSION=1.11.0 --build-arg JDK_VERSION=21.0.13_9-jdk -t ghcr.io/phaus/docker-playframework:1.11.0-21.0.13_9-jdk .
+docker build --pull --build-arg PLAY_VERSION=1.11.0 --build-arg JDK_VERSION=25.0.5_8-jdk -t ghcr.io/phaus/docker-playframework:1.11.0-25.0.5_8-jdk .
 ```
 
 # USAGE
@@ -41,7 +41,7 @@ docker build --pull --build-arg PLAY_VERSION=1.11.0 --build-arg JDK_VERSION=21.0
 ```bash
 docker run -it --rm \
   -v $(pwd)/src:/app \
-  ghcr.io/phaus/docker-playframework:1.11.0-21.0.13_9-jdk \
+  ghcr.io/phaus/docker-playframework:1.11.0-25.0.5_8-jdk \
   play new test
 ```
 
@@ -51,14 +51,14 @@ With local Ivy/Maven cache for faster builds:
 docker run -p 9000:9000 -d \
   -v ~/.ivy2:/root/.ivy2 \
   -v $(pwd)/src:/app \
-  ghcr.io/phaus/docker-playframework:1.11.0-21.0.13_9-jdk \
+  ghcr.io/phaus/docker-playframework:1.11.0-25.0.5_8-jdk \
   play run test
 ```
 
 ### As base image to pack your application:
 
 ```dockerfile
-FROM ghcr.io/phaus/docker-playframework:1.11.0-21.0.13_9-jdk
+FROM ghcr.io/phaus/docker-playframework:1.11.0-25.0.5_8-jdk
 MAINTAINER https://github.com/phaus
 
 COPY src/ /app/
@@ -73,7 +73,7 @@ CMD ["play", "run"]
 
 ```bash
 # Specific Play version with pinned JDK
-docker pull ghcr.io/phaus/docker-playframework:1.11.0-21.0.13_9-jdk
+docker pull ghcr.io/phaus/docker-playframework:1.11.0-25.0.5_8-jdk
 
 # Or just latest (points to 1.11.0)
 docker pull ghcr.io/phaus/docker-playframework:latest

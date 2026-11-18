@@ -1,4 +1,4 @@
-ARG JDK_VERSION=21.0.13_9-jdk
+ARG JDK_VERSION=25.0.5_8-jdk
 
 FROM --platform=$BUILDPLATFORM eclipse-temurin:${JDK_VERSION}
 

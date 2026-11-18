@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-JDK_VERSION="21-jdk"
+JDK_VERSION="21.0.13-jdk"
 
 read -r -d '' PLAY_VERSIONS <<-LIST
-1.7.1
+1.11.0
+1.10.0
+1.9.0
 1.8.0
 LIST
 

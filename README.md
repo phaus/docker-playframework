@@ -1,46 +1,56 @@
-# PlayFramework! Docker Images
+# PlayFramework 1.x Docker Images
 
-We build this repository to maintain **[PlayFramework](https://www.playframework.com/download#older-versions)** docker images for the latest MINOR and PATCH version of each **RELEASE 1.X**
+We build this repository to maintain **[PlayFramework 1.x](https://github.com/playframework/play1/releases)** docker images for the latest MINOR and PATCH version of each **RELEASE 1.X**.
 
-## Supported tags and respective Dockerfile links
-All images are based on [anapsix/alpine-java](https://hub.docker.com/r/anapsix/alpine-java/) image and are minimalistic. This image also support CERTS so Java can connect to HTTPS.
+## Supported Versions
 
+| Play Version | JDK Version | Image Tag |
+|--------------|-------------|-----------|
+| 1.11.0       | Eclipse Temurin 21.0.13 | `phaus/play:1.11.0-21.0.13-jdk` |
+| 1.10.0       | Eclipse Temurin 21.0.13 | `phaus/play:1.10.0-21.0.13-jdk` |
+| 1.9.0        | Eclipse Temurin 21.0.13 | `phaus/play:1.9.0-21.0.13-jdk` |
+| 1.8.0        | Eclipse Temurin 21.0.13 | `phaus/play:1.8.0-21.0.13-jdk` |
 
-## Due a major retagging made by `anapsix/alpine-java`, where they changed Alpine version, we experienced a break on compatibility. In order to avoid further problems, we added a new version tag on our side to try to keep a stable version between releases.
+All images are based on **[Eclipse Temurin](https://hub.docker.com/_/eclipse-temurin)** (Ubuntu jammy), minimalistic, with CA certs for HTTPS.
 
-The version tag is added by the [build-all.sh](https://github.com/socialmetrix/docker-playframework/blob/master/build-all.sh#L11)
+Play 1.11.0 requires Java 21 (drops Java 11). Play 1.10.0+ requires Java 17+ (jakarta.*, JUnit5).
 
 # Build
 
-    docker build  --pull --build-arg PLAY_VERSION=1.5.1 -t phaus/play:1.5.1-alpine .
+```bash
+# Build all versions via build matrix
+./build-all.sh
+
+# Or build single version
+docker build --pull --build-arg PLAY_VERSION=1.11.0 --build-arg JDK_VERSION=21.0.13-jdk -t phaus/play:1.11.0-21.0.13-jdk .
+```
 
 # USAGE
 
-### You can use this image as development environment:
+### Development environment:
 
 ```bash
 docker run -it --rm \
   -v $(pwd)/src:/app \
-  socialmetrix/play:1.2.5.6-1.0 \
+  phaus/play:1.11.0-21.0.13-jdk \
   play new test
 ```
 
-If you have `.m2` / `.ivy2` with credentials you want to use, just map them as below:
+With local Ivy/Maven cache for faster builds:
+
 ```bash
-docker run \
-  -p 9000:9000 -d \
+docker run -p 9000:9000 -d \
   -v ~/.ivy2:/root/.ivy2 \
   -v $(pwd)/src:/app \
-  socialmetrix/play:1.2.5.6-1.0 \
+  phaus/play:1.11.0-21.0.13-jdk \
   play run test
 ```
 
 ### As base image to pack your application:
-Below a example of `Dockerfile` using version `1.2.5.6-1.0`, setting `id` to `prod` and installing `sass` module.
 
-```
-FROM socialmetrix/play:1.2.5.6-1.0
-MAINTAINER https://socialmetrix.com
+```dockerfile
+FROM phaus/play:1.11.0-21.0.13-jdk
+MAINTAINER https://github.com/phaus
 
 COPY src/ /app/
 
